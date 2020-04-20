@@ -6,10 +6,16 @@ services:
             - POSTGRES_USER=airflow
             - POSTGRES_PASSWORD=airflow
             - POSTGRES_DB=airflow
+        # Uncomment these lines to persist data on the local filesystem.
+        #     - PGDATA=/var/lib/postgresql/data/pgdata
+        # volumes:
+        #     - ./pgdata:/var/lib/postgresql/data/pgdata            
         logging:
             options:
                 max-size: 10m
                 max-file: "3"
+        ports:
+            - "5432:5432"
 
     webserver:
         image: puckel/docker-airflow:1.10.9
@@ -24,7 +30,10 @@ services:
                 max-size: 10m
                 max-file: "3"
         volumes:
-            - ./dags:/usr/local/airflow/dags
+            # Configure file-share: C:\Users\romeromi\Dropbox\workspace\AIRFLOW\projects\docker-airflow-puble-example\file-sharing
+            - /C/Users/romeromi/Dropbox/workspace/AIRFLOW/projects/docker-airflow-puble-example/file-sharing/docker-airflow-puble-example/dags:/usr/local/airflow/dags
+            - /C/Users/romeromi/Dropbox/workspace/AIRFLOW/projects/docker-airflow-puble-example/file-sharing/docker-airflow-puble-example/plugins:/usr/local/airflow/plugins
+            #- ./dags:/usr/local/airflow/dags
             # - ./plugins:/usr/local/airflow/plugins
         ports:
             - "8080:8080"
